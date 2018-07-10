@@ -21,6 +21,7 @@ Core utilities
    flexible-arrays
    librs
    genalloc
+   timekeeping
 
 Interfaces for kernel debugging
 ===============================
