@@ -251,8 +251,7 @@ struct tcp_sock {
 		syn_fastopen_exp:1,/* SYN includes Fast Open exp. option */
 		syn_fastopen_ch:1, /* Active TFO re-enabling probe */
 		syn_data_acked:1,/* data in SYN is acked by SYN-ACK */
-		is_cwnd_limited:1,/* forward progress limited by snd_cwnd? */
-		syn_smc:1;	/* SYN includes SMC */
+		is_cwnd_limited:1;/* forward progress limited by snd_cwnd? */
 	u32	tlp_high_seq;	/* snd_nxt at the time of TLP */
 
 	u32	tcp_tx_delay;	/* delay (in usec) added to TX packets */
@@ -398,6 +397,9 @@ u16 timeout_rehash;	/* Timeout-triggered rehash attempts */
 	u32	mtu_info; /* We received an ICMP_FRAG_NEEDED / ICMPV6_PKT_TOOBIG
 			   * while socket was owned by user.
 			   */
+#if IS_ENABLED(CONFIG_SMC)
+	bool	syn_smc;	/* SYN includes SMC */
+#endif
 
 #if IS_ENABLED(CONFIG_MPTCP)
 	bool	is_mptcp;
@@ -504,7 +506,8 @@ struct sk_buff *tcp_get_timestamping_opt_stats(const struct sock *sk);
 
 static inline u32 tcp_saved_syn_len(const struct saved_syn *saved_syn)
 {
-	return saved_syn->network_hdrlen + saved_syn->tcp_hdrlen;
+	return saved_syn->mac_hdrlen + saved_syn->network_hdrlen +
+		saved_syn->tcp_hdrlen;
 }
 
 static inline u16 tcp_mss_clamp(const struct tcp_sock *tp, u16 mss)
