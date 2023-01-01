@@ -1,3 +1,4 @@
+
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
  * Copyright (c) 2020 MediaTek Inc.
@@ -195,7 +196,7 @@ static void adsp_exception_dump(struct adsp_exception_control *ctrl)
 	if (dump_flag) {
 		ret = dump_buffer(ctrl, coredump_id);
 		if (ret < 0)
-			pr_info("%s, excep dump fail ret(%d)", __func__, ret);
+			pr_debug("%s, excep dump fail ret(%d)", __func__, ret);
 	}
 
 	n += snprintf(detail + n, ADSP_AED_STR_LEN - n, "%s %s\n",
@@ -212,7 +213,7 @@ static void adsp_exception_dump(struct adsp_exception_control *ctrl)
 		n += snprintf(detail + n, ADSP_AED_STR_LEN - n, "%s",
 			      coredump->assert_log);
 	}
-	pr_info("%s", detail);
+	pr_debug("%s", detail);
 
 	/* adsp aed api, only detail information available*/
 	aed_common_exception_api("adsp", (const int *)coredump, coredump_size,
@@ -561,4 +562,3 @@ struct attribute_group adsp_excep_attr_group = {
 	.attrs = adsp_excep_attrs,
 	.bin_attrs = adsp_excep_bin_attrs,
 };
-
