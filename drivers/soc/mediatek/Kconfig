@@ -1,6 +1,7 @@
 #
 # MediaTek SoC drivers
 #
+
 config MTK_INFRACFG
 	bool "MediaTek INFRACFG Support"
 	depends on ARCH_MEDIATEK || COMPILE_TEST
