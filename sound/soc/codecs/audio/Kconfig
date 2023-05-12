@@ -8,7 +8,7 @@ config SIA_PA_ALGO
 
 #ifdef OPLUS_BUG_COMPATIBILITY
 config SND_SOC_CODEC_AW87339
-	bool "Use AW87339 As PA"
+	tristate "Use AW87339 As PA"
 	default n
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
