@@ -2667,7 +2667,7 @@ static int mtk_vdec_g_v_ctrl(struct v4l2_ctrl *ctrl)
 		color_desc = (struct mtk_color_desc *)ctrl->p_new.p_u32;
 		if (vdec_if_get_param(ctx, GET_PARAM_COLOR_DESC, color_desc)
 		    != 0) {
-			mtk_v4l2_err("[%d] Error!! Cannot get param", ctx->id);
+			//mtk_v4l2_err("[%d] Error!! Cannot get param", ctx->id);
 			ret = -EINVAL;
 		}
 		break;
@@ -2791,7 +2791,7 @@ static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ctrl)
 		mtk_vcodec_set_log(ctx, ctrl->p_new.p_char);
 		break;
 	default:
-		mtk_v4l2_err("ctrl-id=%x not support!", ctrl->id);
+		// mtk_v4l2_err("ctrl-id=%x not support!", ctrl->id);
 		return -EINVAL;
 	}
 
