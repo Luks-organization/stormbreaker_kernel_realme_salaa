@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 MediaTek Inc.
+ * Copyright (c) 2019 MediaTek Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -11,7 +11,8 @@
  * See http://www.gnu.org/licenses/gpl-2.0.html for more details.
  */
 
-void vibr_Enable_HW(void);
-void vibr_Disable_HW(void);
+#include <linux/regulator/consumer.h>
+void vibr_Enable_HW(struct regulator *reg);
+void vibr_Disable_HW(struct regulator *reg);
 void vibr_power_set(void);
 struct vibrator_hw *mt_get_cust_vibrator_hw(void);
