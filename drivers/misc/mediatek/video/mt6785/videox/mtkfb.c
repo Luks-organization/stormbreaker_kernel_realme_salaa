@@ -362,16 +362,15 @@ int mtkfb_set_backlight_level(unsigned int level)
 	MTKFB_FUNC();
 
 	DISPDBG("%s:%d Start\n", __func__, level);
-
 	if (aal_is_support) {
-		#ifdef OPLUS_BUG_STABILITY
-		/* Zhijun.Ye@MM.Display.LCD.Stability 2020/11/16, Add for dc backlight*/
-		oplus_backlight_backup = level;
-		#endif /* OPLUS_BUG_STABILITY */
 		primary_display_setbacklight_nolock(level);
 	} else {
 		primary_display_setbacklight(level);
 	}
+
+	#ifdef OPLUS_BUG_STABILITY
+	oplus_backlight_backup = level;
+	#endif /* OPLUS_BUG_STABILITY */
 
 	DISPDBG("%s End\n", __func__);
 	return 0;
