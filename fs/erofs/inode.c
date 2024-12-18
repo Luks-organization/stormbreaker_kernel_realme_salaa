@@ -6,6 +6,7 @@
  */
 #include "xattr.h"
 
+#include <linux/overflow.h>
 #include <trace/events/erofs.h>
 
 /*
