@@ -285,6 +285,24 @@ static int mt6370_fled_resume(struct rt_fled_dev *info)
 	return 0;
 }
 
+static inline int mt6370_pmu_reg_test_bit(
+	struct mt6370_pmu_chip *chip, u8 cmd, u8 shift, bool *is_one)
+{
+	int ret = 0;
+	u8 data = 0;
+
+	ret = mt6370_pmu_reg_read(chip, cmd);
+	if (ret < 0) {
+		*is_one = false;
+		return ret;
+	}
+
+	data = ret & (1 << shift);
+	*is_one = (data == 0 ? false : true);
+
+	return 0;
+}
+
 static int mt6370_fled_set_mode(struct rt_fled_dev *info,
 					enum flashlight_mode mode)
 {
