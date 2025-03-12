@@ -1761,7 +1761,7 @@ static int32_t nvt_ts_probe(struct spi_device *client)
 		goto err_create_nvt_fwu_wq_failed;
 	}
 	kthread_init_delayed_work(&ts->nvt_fwu_dw, Boot_Update_Firmware);
-	kthread_queue_delayed_work(nvt_fwu_worker, &ts->nvt_fwu_dw, msecs_to_jiffies(14000));
+	kthread_queue_delayed_work(nvt_fwu_worker, &ts->nvt_fwu_dw, msecs_to_jiffies(100));
 	NVT_LOG("start kthread_queue_delayed_work nt36672c\n");
 #endif
 
