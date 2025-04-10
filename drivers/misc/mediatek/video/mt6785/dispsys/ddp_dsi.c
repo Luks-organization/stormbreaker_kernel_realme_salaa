@@ -21,6 +21,9 @@
 #include <linux/sched/clock.h>
 #include <linux/interrupt.h>
 #include <linux/wait.h>
+#ifdef CONFIG_POWERSUSPEND
+#include <linux/powersuspend.h>
+#endif
 #include "mt-plat/sync_write.h"
 #include <debug.h>
 #include "disp_drv_log.h"
@@ -7247,6 +7250,9 @@ unsigned int _is_power_on_status(enum DISP_MODULE_ENUM module)
  */
 int ddp_dsi_power_on(enum DISP_MODULE_ENUM module, void *cmdq_handle)
 {
+#ifdef CONFIG_POWERSUSPEND
+  	set_power_suspend_state_panel_hook(POWER_SUSPEND_INACTIVE);
+#endif
 	DISPFUNCSTART();
 	if (_is_power_on_status(module))
 		return DSI_STATUS_OK;
@@ -7291,6 +7297,9 @@ int ddp_dsi_power_off(enum DISP_MODULE_ENUM module, void *cmdq_handle)
 	unsigned int i = 0;
 #endif
 
+#ifdef CONFIG_POWERSUSPEND
+  	set_power_suspend_state_panel_hook(POWER_SUSPEND_ACTIVE);
+#endif
 	DISPFUNC();
 	if (!_is_power_on_status(module))
 		return DSI_STATUS_OK;
