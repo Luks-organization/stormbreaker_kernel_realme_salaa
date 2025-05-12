@@ -6376,7 +6376,7 @@ static int init_debug_info_proc(struct touchpanel_data *ts)
  */
 static int init_input_device(struct touchpanel_data *ts)
 {
-    int ret = 0, i = 0;
+    int ret = 0;
     struct kobject *vk_properties_kobj;
 
     TPD_INFO("%s is called\n", __func__);
