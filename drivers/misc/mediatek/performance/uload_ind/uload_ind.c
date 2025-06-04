@@ -132,8 +132,10 @@ static bool sentuevent(const char *src)
 #endif
 		show_debug("sent uevent success:%s", src);
 
+        #ifdef CONFIG_TRACING
 		perfmgr_trace_log("cpu_loading",
 				"sent uevent success:%s", src);
+        #endif
 	}
 	return true;
 }
@@ -146,10 +148,11 @@ static void calculat_loading_callback(int mask_loading, int loading)
 	cl_lock(__func__);
 
 	show_debug("update cpu_loading");
+    #ifdef CONFIG_TRACING
 	perfmgr_trace_log("cpu_loading",
 			"loading:%d mask_loading:%d curr_cpu_loading:%d previous state:%d",
 			loading, mask_loading, curr_cpu_loading, state);
-
+    #endif
 	show_debug("loading:%d mask_loading:%d curr_cpu_loading:%d previous state:%d\n",
 			loading, mask_loading, curr_cpu_loading, state);
 	if (loading > over_threshold) {
@@ -202,7 +205,9 @@ static void start_calculate_loading(void)
 		curr_cpu_loading = REG_SUCCESS;
 	else
 		curr_cpu_loading = REG_FAIL;
+    #ifdef CONFIG_TRACING
 	perfmgr_trace_log("cpu_loading", "ret_reg:%d\n", ret_reg);
+    #endif
 	state = ULOAD_STATE_MID;
 }
 
@@ -218,7 +223,9 @@ static void stop_calculate_loading(void)
 		curr_cpu_loading = UNREG_SUCCESS;
 	else
 		curr_cpu_loading = UNREG_FAIL;
+    #ifdef CONFIG_TRACING
 	perfmgr_trace_log("cpu_loading", "ret_unreg:%d\n", ret_unreg);
+    #endif
 }
 
 static ssize_t perfmgr_poltime_secs_proc_write(struct file *filp,
