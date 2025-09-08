@@ -177,19 +177,23 @@ void xgf_lockprove(const char *tag)
 }
 EXPORT_SYMBOL(xgf_lockprove);
 
+#ifdef CONFIG_TRACING
 static int xgf_tracepoint_probe_register(struct tracepoint *tp,
 					void *probe,
 					void *data)
 {
 	return tracepoint_probe_register(tp, probe, data);
 }
+#endif
 
+#ifdef CONFIG_TRACING
 static int xgf_tracepoint_probe_unregister(struct tracepoint *tp,
 					void *probe,
 					void *data)
 {
 	return tracepoint_probe_unregister(tp, probe, data);
 }
+#endif
 
 void xgf_trace(const char *fmt, ...)
 {
@@ -2449,7 +2453,7 @@ EXPORT_SYMBOL(fstb_event_buffer_size);
 #define MAX_XGF_EVENTS (xgf_max_events)
 #define MAX_EVENT_NUM fstb_event_buffer_size
 
-static void xgf_buffer_update(int cpu, int event, int data, int note,
+static void __maybe_unused xgf_buffer_update(int cpu, int event, int data, int note,
 				unsigned long long ts)
 {
 	int index;
@@ -2512,6 +2516,7 @@ Reget:
 	}
 }
 
+#ifdef CONFIG_TRACING
 static void xgf_irq_handler_entry_tracer(void *ignore,
 					int irqnr,
 					struct irqaction *irq_action)
@@ -2646,6 +2651,8 @@ static void xgf_hrtimer_expire_entry_tracer(void *ignore,
 
 static void xgf_hrtimer_expire_exit_tracer(void *ignore, struct hrtimer *hrtimer) { }
 
+#endif
+
 struct tracepoints_table {
 	const char *name;
 	void *func;
@@ -2653,6 +2660,7 @@ struct tracepoints_table {
 	bool registered;
 };
 
+#ifdef CONFIG_TRACING
 static struct tracepoints_table xgf_tracepoints[] = {
 	{.name = "irq_handler_entry", .func = xgf_irq_handler_entry_tracer},
 	{.name = "irq_handler_exit", .func = xgf_irq_handler_exit_tracer},
@@ -2668,6 +2676,7 @@ static struct tracepoints_table xgf_tracepoints[] = {
 	{.name = "hrtimer_expire_entry", .func = xgf_hrtimer_expire_entry_tracer},
 	{.name = "hrtimer_expire_exit", .func = xgf_hrtimer_expire_exit_tracer},
 };
+#endif
 
 #define FOR_EACH_INTEREST_MAX \
 	(sizeof(xgf_tracepoints) / sizeof(struct tracepoints_table))
@@ -2675,6 +2684,7 @@ static struct tracepoints_table xgf_tracepoints[] = {
 #define FOR_EACH_INTEREST(i) \
 	for (i = 0; i < FOR_EACH_INTEREST_MAX; i++)
 
+#ifdef CONFIG_TRACING
 static void lookup_tracepoints(struct tracepoint *tp, void *ignore)
 {
 	int i;
@@ -2684,7 +2694,9 @@ static void lookup_tracepoints(struct tracepoint *tp, void *ignore)
 			xgf_tracepoints[i].tp = tp;
 	}
 }
+#endif
 
+#ifdef CONFIG_TRACING
 static void xgf_cleanup(void)
 {
 	int i;
@@ -2697,7 +2709,9 @@ static void xgf_cleanup(void)
 		}
 	}
 }
+#endif
 
+#ifdef CONFIG_TRACING
 static void __nocfi xgf_tracing_register(void)
 {
 	int ret;
@@ -2894,7 +2908,9 @@ fail_reg_irq_handler_entry:
 	xgf_atomic_set(xgf_event_index, 0);
 	atomic_set(&fstb_event_data_idx, 0);
 }
+#endif
 
+#ifdef CONFIG_TRACING
 static void __nocfi xgf_tracing_unregister(void)
 {
 	xgf_tracepoint_probe_unregister(xgf_tracepoints[0].tp,
@@ -2939,17 +2955,22 @@ static void __nocfi xgf_tracing_unregister(void)
 	xgf_atomic_set(xgf_event_index, 0);
 	atomic_set(&fstb_event_data_idx, 0);
 }
+#endif
 
 int xgf_stat_xchg(int xgf_enable)
 {
 	int ret = -1;
 
 	if (xgf_enable) {
+		#ifdef CONFIG_TRACING
 		xgf_tracing_register();
+		#endif
 		ret = 1;
 		xgf_atomic_set(xgf_ko_enabled, 1);
 	} else {
+		#ifdef CONFIG_TRACING
 		xgf_tracing_unregister();
+		#endif
 		ret = 0;
 		xgf_atomic_set(xgf_ko_enabled, 0);
 	}
@@ -2959,6 +2980,7 @@ int xgf_stat_xchg(int xgf_enable)
 
 int __init init_xgf_ko(void)
 {
+#ifdef CONFIG_TRACING
 	int i;
 
 	for_each_kernel_tracepoint(lookup_tracepoints, NULL);
@@ -2971,6 +2993,7 @@ int __init init_xgf_ko(void)
 			return -1;
 		}
 	}
+#endif
 
 	xgf_event_index = xgf_atomic_val_assign(0);
 	atomic_set(&fstb_event_data_idx, 0);
