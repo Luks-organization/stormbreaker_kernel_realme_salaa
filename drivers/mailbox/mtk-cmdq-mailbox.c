@@ -105,9 +105,11 @@ int mtk_cmdq_err = 1;
 EXPORT_SYMBOL(mtk_cmdq_err);
 module_param(mtk_cmdq_log, int, 0644);
 
+#ifdef CONFIG_TRACING
 int cmdq_trace;
 EXPORT_SYMBOL(cmdq_trace);
 module_param(cmdq_trace, int, 0644);
+#endif
 
 struct cmdq_task {
 	struct cmdq		*cmdq;
@@ -185,9 +187,9 @@ struct gce_plat {
 static void cmdq_init_cpu(struct cmdq *cmdq)
 {
 	int i;
-
+#ifdef CONFIG_TRACING
 	cmdq_trace_ex_begin("%s", __func__);
-
+#endif
 	writel(CMDQ_THR_ACTIVE_SLOT_CYCLES, cmdq->base + CMDQ_THR_SLOT_CYCLES);
 	for (i = 0; i <= CMDQ_EVENT_MAX; i++)
 		writel(i, cmdq->base + CMDQ_SYNC_TOKEN_UPD);
@@ -196,8 +198,9 @@ static void cmdq_init_cpu(struct cmdq *cmdq)
 	for (i = 0; i < cmdq->token_cnt; i++)
 		writel(cmdq->tokens[i] | BIT(16),
 			cmdq->base + CMDQ_SYNC_TOKEN_UPD);
-
+#ifdef CONFIG_TRACING
 	cmdq_trace_ex_end();
+#endif
 }
 
 static void cmdq_init(struct cmdq *cmdq)
@@ -234,8 +237,9 @@ static inline void cmdq_mmp_init(void)
 
 static void cmdq_lock_wake_lock(struct cmdq *cmdq, bool lock)
 {
+#ifdef CONFIG_TRACING
 	cmdq_trace_ex_begin("%s", __func__);
-
+#endif
 	if (lock) {
 		if (!cmdq->wake_locked) {
 			__pm_stay_awake(cmdq->wake_lock);
@@ -258,8 +262,9 @@ static void cmdq_lock_wake_lock(struct cmdq *cmdq, bool lock)
 		}
 
 	}
-
+#ifdef CONFIG_TRACING
 	cmdq_trace_ex_end();
+#endif
 }
 
 static s32 cmdq_clk_enable(struct cmdq *cmdq)
@@ -267,8 +272,9 @@ static s32 cmdq_clk_enable(struct cmdq *cmdq)
 	s32 usage, err, err_timer;
 	unsigned long flags;
 
+#ifdef CONFIG_TRACING
 	cmdq_trace_ex_begin("%s", __func__);
-
+#endif
 	spin_lock_irqsave(&cmdq->lock, flags);
 
 	usage = atomic_inc_return(&cmdq->usage);
@@ -299,9 +305,9 @@ static s32 cmdq_clk_enable(struct cmdq *cmdq)
 		cmdq_err("timer clk fail:%d", err_timer);
 
 	spin_unlock_irqrestore(&cmdq->lock, flags);
-
+#ifdef CONFIG_TRACING
 	cmdq_trace_ex_end();
-
+#endif
 	return err;
 }
 
@@ -310,7 +316,9 @@ static void cmdq_clk_disable(struct cmdq *cmdq)
 	s32 usage;
 	unsigned long flags;
 
+#ifdef CONFIG_TRACING
 	cmdq_trace_ex_begin("%s", __func__);
+#endif
 
 	spin_lock_irqsave(&cmdq->lock, flags);
 
@@ -345,7 +353,9 @@ static void cmdq_clk_disable(struct cmdq *cmdq)
 
 	spin_unlock_irqrestore(&cmdq->lock, flags);
 
+#ifdef CONFIG_TRACING
 	cmdq_trace_ex_end();
+#endif
 }
 
 dma_addr_t cmdq_thread_get_pc(struct cmdq_thread *thread)
@@ -632,7 +642,9 @@ void cmdq_init_cmds(void *dev_cmdq)
 	int i;
 	u32 status;
 
+#ifdef CONFIG_TRACING
 	cmdq_trace_ex_begin("%s", __func__);
+#endif
 
 	pc = cmdq->init_cmds;
 	end = cmdq->init_cmds + CMDQ_EVENT_MAX * CMDQ_INST_SIZE;
@@ -669,7 +681,9 @@ void cmdq_init_cmds(void *dev_cmdq)
 	}
 	writel(CMDQ_THR_DISABLED, thread->base + CMDQ_THR_ENABLE_TASK);
 
+#ifdef CONFIG_TRACING
 	cmdq_trace_ex_end();
+#endif
 }
 
 static void cmdq_task_exec(struct cmdq_pkt *pkt, struct cmdq_thread *thread)
@@ -1733,9 +1747,13 @@ static int cmdq_remove(struct platform_device *pdev)
 
 static int cmdq_mbox_send_data(struct mbox_chan *chan, void *data)
 {
+#ifdef CONFIG_TRACING
 	cmdq_trace_begin("%s", __func__);
+#endif
 	cmdq_task_exec(data, chan->con_priv);
+#ifdef CONFIG_TRACING
 	cmdq_trace_end();
+#endif
 	return 0;
 }
 
@@ -2493,12 +2511,14 @@ void cmdq_event_verify(void *chan, u16 event_id)
 }
 EXPORT_SYMBOL(cmdq_event_verify);
 
+#ifdef CONFIG_TRACING
 void tracing_mark_write(const char *buf)
 {
 	preempt_disable();
 	trace_puts(buf);
 	preempt_enable();
 }
+#endif
 
 unsigned long cmdq_get_tracing_mark(void)
 {
