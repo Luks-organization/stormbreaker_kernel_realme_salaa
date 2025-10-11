@@ -122,6 +122,11 @@ config MACH_MT6785
 	select EXT4_FS
 	select EXT4_FS_SECURITY
 	select EXT4_ENCRYPTION
+	select F2FS_FS
+	select F2FS_FS_ENCRYPTION
+	select F2FS_FS_SECURITY
+	select F2FS_FS_XATTR
+	select DM_BOW
 	select OVERLAY_FS
 	select CPU_IDLE
 	select MTK_BASE_POWER
@@ -216,6 +221,15 @@ config MACH_MT6765
 	select GENERIC_SCHED_CLOCK
 	select ARMV7_COMPAT
 	select ARMV7_COMPAT_CPUINFO
+	select EXT4_FS
+	select EXT4_FS_ENCRYPTION
+	select EXT4_FS_SECURITY
+	select EXT4_ENCRYPTION
+	select F2FS_FS
+	select F2FS_FS_ENCRYPTION
+	select F2FS_FS_SECURITY
+	select F2FS_FS_XATTR
+	select DM_BOW
 	select CPU_IDLE
 	select PINCTRL
 	select PINCTRL_MT6765
@@ -254,7 +268,6 @@ config MACH_MT6771
 	select ARM_AMBA
 	select CPU_V7
 	select HAVE_SMP
-	select MTK_PID_MAP
 	select MTK_IO_BOOST
 	select NEED_MACH_MEMORY_H
 	select IRQ_DOMAIN
@@ -262,6 +275,15 @@ config MACH_MT6771
 	select GENERIC_SCHED_CLOCK
 	select ARMV7_COMPAT
 	select ARMV7_COMPAT_CPUINFO
+	select EXT4_FS
+	select EXT4_FS_ENCRYPTION
+	select EXT4_FS_SECURITY
+	select EXT4_ENCRYPTION
+	select F2FS_FS
+	select F2FS_FS_ENCRYPTION
+	select F2FS_FS_SECURITY
+	select F2FS_FS_XATTR
+	select DM_BOW
 	select PINCTRL
 	select PINCTRL_MT6771
 	select MFD_SYSCON
@@ -316,13 +338,17 @@ config MACH_MT6768
 	select EXT4_FS
 	select EXT4_FS_SECURITY
 	select EXT4_ENCRYPTION
+	select F2FS_FS
+	select F2FS_FS_ENCRYPTION
+	select F2FS_FS_SECURITY
+	select F2FS_FS_XATTR
+	select DM_BOW
 	select PINCTRL
 	select PINCTRL_MT6768
 	select MFD_SYSCON
 	select CPU_IDLE
 	select MTK_BASE_POWER
 	select MTK_GIC_V3_EXT
-	select MTK_PID_MAP
 	select MTK_SYSIRQ
 	select MTK_DEBUG_LATCH
 	select MTK_PLAT_SRAM_FLAG
@@ -531,7 +557,6 @@ config MACH_MT6885
 	select MTK_PLAT_SRAM_FLAG
 	select MTK_DEBUG_LATCH
 	select MTK_DFD_INTERNAL_DUMP
-	select MTK_PID_MAP
 	select MTK_CACHE_PARITY_CHECK
 	select HW_RANDOM
 	select HW_RANDOM_MT67XX
@@ -560,7 +585,6 @@ config MACH_MT6873
 	select MTK_LOW_POWER_MODULE
 	select MTK_LPM_MT6873
 	select MTK_SWPM if !FPGA_EARLY_PORTING
-	select MTK_PID_MAP
 	select GENERIC_SCHED_CLOCK
 	select ARMV7_COMPAT
 	select ARMV7_COMPAT_CPUINFO
@@ -676,7 +700,6 @@ config MACH_MT6833
 	select DEVAPC_MT6833
 	select DEVMPU_MT6833
 	select MTK_DBGTOP
-	select MTK_PID_MAP
 	select MTK_CM_MGR
 	select MTK_CPU_KORO
 	select MTK_SDA
@@ -717,7 +740,6 @@ config MACH_MT6877
 	select MEDIATEK_MC if MEMORY
 	select MTK_LPM
 	select MTK_LOW_POWER_MODULE
-	select MTK_PID_MAP
 	select MTK_TIMER_SYSTIMER
 	select MTK_SPMTWAM
 	select MTK_PMSR
@@ -821,7 +843,6 @@ config MACH_MT6853
 	select MTK_UNIFIED_DEBUG_INTERFACE
 	select MTK_CPU_KORO
 	select MTK_DRAMC_WA
-	select MTK_PID_MAP
 	help
 	  This enables support for MediaTek MT6853
 	  Support for aarch64 Architecture
@@ -882,7 +903,6 @@ config MACH_MT6893
 	select MTK_PLAT_SRAM_FLAG
 	select MTK_DEBUG_LATCH
 	select MTK_DFD_INTERNAL_DUMP
-	select MTK_PID_MAP
 	select MTK_CACHE_PARITY_CHECK
 	select HW_RANDOM
 	select HW_RANDOM_MT67XX
