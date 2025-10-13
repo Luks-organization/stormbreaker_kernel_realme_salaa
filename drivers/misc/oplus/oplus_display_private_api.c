@@ -100,7 +100,7 @@ extern void __attribute((weak)) _primary_path_lock(const char *caller) {return;}
 extern void __attribute((weak)) _primary_path_unlock(const char *caller) {return;};
 extern int __attribute((weak)) primary_display_aod_backlight(int level) {return 0;};
 extern bool __attribute((weak)) primary_display_get_fp_hbm_state(void) {return 0;};
-extern unsigned int __attribute((weak)) delay_uiready = 0;
+extern unsigned int __attribute((weak)) delay_uiready;
 #if defined(CONFIG_MACH_MT6785)
 extern enum DISP_HELPER_STAGE disp_helper_get_stage(void);
 extern const char *disp_helper_stage_spy(void);
@@ -890,7 +890,7 @@ static ssize_t LCM_HBM_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t num)
 {
 	int ret;
-	unsigned char payload[100] = "";
+	unsigned char payload[100] __maybe_unused = "";
 	printk("oplus_display_hbm_support = %d\n", oplus_display_hbm_support);
 	if (oplus_display_hbm_support) {
 		HBM_pre_mode = HBM_mode;
