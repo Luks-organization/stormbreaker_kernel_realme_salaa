@@ -22,6 +22,10 @@ config MTK_GPU_COMMON_DVFS_SUPPORT
 	  It is nice method to save power.
 	  It is recommended to enable it when MTK_GPU_SUPPORT is enabled.
 
+config MTK_GED_SUPPORT
+	bool "Support MTK GED"
+	default y
+
 config MTK_GPU_OPP_STATS_SUPPORT
 	bool "Support GPU opp stat"
 	depends on MTK_GPU_COMMON_DVFS_SUPPORT
