@@ -764,6 +764,9 @@ KBUILD_CFLAGS   += -Os
 else
 KBUILD_CFLAGS   += -O3
 endif
+ifeq ($(cc-name),clang)
+KBUILD_CFLAGS += $(call cc-option,-mcpu=cortex-a76.cortex-a55)
+endif
 
 ifdef CONFIG_LLVM_POLLY
 KBUILD_CFLAGS	+= -mllvm -polly \
