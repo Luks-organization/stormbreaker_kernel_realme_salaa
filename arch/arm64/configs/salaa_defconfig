@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 4.14.335 Kernel Configuration
+# Linux/arm64 4.14.356 Kernel Configuration
 #
 CONFIG_ARM64=y
 CONFIG_64BIT=y
@@ -607,7 +607,7 @@ CONFIG_COREDUMP=y
 CONFIG_COMPAT=y
 CONFIG_KUSER_HELPERS=y
 CONFIG_COMPAT_VDSO=y
-CONFIG_CROSS_COMPILE_ARM32=""
+CONFIG_CROSS_COMPILE_COMPAT=""
 
 #
 # Power management options
