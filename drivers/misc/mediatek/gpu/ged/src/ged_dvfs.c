@@ -1017,20 +1017,19 @@ static int ged_dvfs_fb_gpu_dvfs(int t_gpu, int t_gpu_target,
 #ifdef GED_CONFIGURE_LOADING_BASE_DVFS_STEP
 		if (force_fallback == 1) {
 			g_lb_down_count = 1;
-			int i32NewFreqID =
-			(int) mt_gpufreq_get_cur_freq_index();
+			ui32NewFreqID = (int) mt_gpufreq_get_cur_freq_index();
 
 			if (dvfs_step_mode == 0)
-				i32NewFreqID = 0;
+				ui32NewFreqID = 0;
 			else
-				i32NewFreqID -= (dvfs_step_mode&0xff);
+				ui32NewFreqID -= (dvfs_step_mode&0xff);
 
-			if (i32NewFreqID < 0)
-				i32NewFreqID = 0;
+			if (ui32NewFreqID < 0)
+				ui32NewFreqID = 0;
 
-			ged_dvfs_gpu_freq_commit((unsigned long)i32NewFreqID
+			ged_dvfs_gpu_freq_commit((unsigned long)ui32NewFreqID
 			, mt_gpufreq_get_freq_by_idx((unsigned long)
-			i32NewFreqID)
+			ui32NewFreqID)
 			, GED_DVFS_DEFAULT_COMMIT);
 		}
 #else
