@@ -10948,6 +10948,10 @@ static int load_balance(int this_cpu, struct rq *this_rq,
 			struct sched_domain *sd, enum cpu_idle_type idle,
 			int *continue_balancing)
 {
+#ifdef CONFIG_SCHED_HMP
+	int cpu;
+	unsigned long util;
+#endif
 	int ld_moved, cur_ld_moved, active_balance = 0;
 	struct sched_domain *sd_parent = sd->parent;
 	struct sched_group *group;
@@ -11148,8 +11152,8 @@ more_balance:
 			 * If cpu_util + new task_util is overutil,
 			 * we don't migrate this task.
 			 */
-			int cpu = env.dst_cpu;
-			unsigned long util = cpu_util_without(cpu, busiest->curr) +
+			cpu = env.dst_cpu;
+			util = cpu_util_without(cpu, busiest->curr) +
 						task_util_est(busiest->curr);
 			if ((capacity_of(env.dst_cpu) * 1024) <
 			uclamp_rq_util_with(cpu_rq(cpu), util, busiest->curr) * capacity_margin) {
