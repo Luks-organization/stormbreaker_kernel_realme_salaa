@@ -2436,7 +2436,7 @@ void set_user_space_global_cpuset(struct cpumask *global_cpus, int cgroup_id)
 		struct cpuset *parent;
 
 		if (cs == &top_cpuset || !css_tryget_online(&cs->css) ||
-			(cgroup_id != 0 && cs->css.cgroup->id != cgroup_id))
+			(cgroup_id != 0 && cs->css.cgroup->kn->id != cgroup_id))
 			continue;
 
 		parent = parent_cs(cs);
@@ -2476,7 +2476,7 @@ void set_user_space_global_cpuset(struct cpumask *global_cpus, int cgroup_id)
 		//		cs->effective_cpus->bits[0]);
 		printk_deferred("[name:global_cpuset&]final set:0x%lx cgroup: %s, id:%d\n",
 				cs->effective_cpus->bits[0],cs->css.cgroup->kn->name,
-				cs->css.cgroup->id);
+				cs->css.cgroup->kn->id);
 
 		/* use cs->effective_cpus to update cs cpumask */
 		update_tasks_cpumask(cs);
@@ -2524,7 +2524,7 @@ void unset_user_space_global_cpuset(int cgroup_id)
 		struct cpuset *parent;
 
 		if (cs == &top_cpuset || !css_tryget_online(&cs->css) ||
-			(cgroup_id != 0 && cs->css.cgroup->id != cgroup_id))
+			(cgroup_id != 0 && cs->css.cgroup->kn->id != cgroup_id))
 			continue;
 
 		parent = parent_cs(cs);
@@ -2558,7 +2558,7 @@ void unset_user_space_global_cpuset(int cgroup_id)
 		printk_deferred("[name:global_cpuset&]final unset:  0x%lx cgroup:%s, id:%d\n",
 				cs->effective_cpus->bits[0],
 				cs->css.cgroup->kn->name,
-				cs->css.cgroup->id);
+				cs->css.cgroup->kn->id);
 		pr_cont_cgroup_name(cs->css.cgroup);
 		//printk_deferred("\n");
 
