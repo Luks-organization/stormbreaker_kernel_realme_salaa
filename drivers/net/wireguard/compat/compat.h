@@ -412,6 +412,8 @@ static inline u64 __compat_jiffies64_to_nsecs(u64 j)
 }
 #define jiffies64_to_nsecs __compat_jiffies64_to_nsecs
 #endif
+
+/*
 static inline u64 ktime_get_coarse_boottime_ns(void)
 {
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3, 17, 0)
@@ -422,6 +424,7 @@ static inline u64 ktime_get_coarse_boottime_ns(void)
 	return ktime_to_ns(ktime_get_coarse_boottime());
 #endif
 }
+*/
 #endif
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3, 14, 0)
