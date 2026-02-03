@@ -41,14 +41,6 @@
 #include <linux/compiler.h>
 #include <linux/gfp.h>
 #include <linux/module.h>
-<<<<<<< HEAD
-=======
-//#ifdef OPLUS_FEATURE_DATA_EVAL
-//PengHao@NETWORK.DATA.8124, 2020/05/08, Add for network quality evaluation.
-#include <net/oplus/oplus_kernel2user.h>
-//#endif /* OPLUS_FEATURE_DATA_EVAL */
-#include <linux/static_key.h>
->>>>>>> 1bd1e36fb687 (BACKPORT: tcp: TCP experimental option for SMC)
 
 /* People can turn this off for buggy TCP's found in printers etc. */
 int sysctl_tcp_retrans_collapse __read_mostly = 1;
